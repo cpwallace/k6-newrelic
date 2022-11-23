@@ -39,11 +39,12 @@ jobs:
   
   
       - name: Install xk6
-        run: go install go.k6.io/xk6/cmd/xk6@latest
-
-      - name: Build xk6-counter binary
-        run: xk6 build --with github.com/mstoykov/xk6-counter@latest
+        run: |
+          sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 379CE192D401AB61 \
+          echo "deb https://dl.bintray.com/loadimpact/deb stable main" | sudo tee -a /etc/apt/sources.list \
+          sudo apt-get update -y \
+          sudo apt-get install k6 -y
         
       - name: run tests
-        run : ./k6 run --vus 12 --duration 30s --out statsd script.js
+        run : k6 run --vus 12 --duration 30s --out statsd script.js
 
