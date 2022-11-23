@@ -34,4 +34,13 @@ jobs:
           -e NR_API_KEY="${NR_API_KEY}" \
           -p 8125:8125/udp \
           newrelic/nri-statsd:latest
+          
+      - name: sleep 
+        run: sleep 60
+        
+      - name: Create script
+        run: echo "import http from 'k6/http'; import { sleep } from 'k6'; export default function() { http.get('http://emea-partners.newrelic-es.com'); sleep(1); }" > script.js
+        
+      - name: run tests
+        run : k6 run --vus 12 --duration 30s --out statsd script.js
 
