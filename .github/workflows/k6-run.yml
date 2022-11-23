@@ -36,14 +36,9 @@ jobs:
         
       - name: Create script
         run: echo "import http from 'k6/http'; import { sleep } from 'k6'; export default function() { http.get('http://emea-partners.newrelic-es.com'); sleep(1); }" > script.js
-  
-  
-      - name: Install xk6
-        run: |
-          sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 379CE192D401AB61 \
-          echo "deb https://dl.bintray.com/loadimpact/deb stable main" | sudo tee -a /etc/apt/sources.list \
-          sudo apt-get update -y \
-          sudo apt-get install k6 -y
+      
+      - name: insall 6
+        run: sudo snap install k6
         
       - name: run tests
         run : k6 run --vus 12 --duration 30s --out statsd script.js
