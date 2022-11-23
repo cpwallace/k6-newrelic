@@ -1,4 +1,4 @@
-name: Manual workflow
+name: Run K6
 
 on:
   workflow_dispatch:
