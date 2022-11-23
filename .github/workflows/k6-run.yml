@@ -1,0 +1,20 @@
+name: Manual workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "branch name (Default: main)"
+        required: true
+        default: "main"
+jobs:
+  build:
+    name: Run k6 test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        
+      - name: Install k6
+        run: |
+          curl https://github.com/loadimpact/k6/releases/download/v0.26.2/k6-v0.26.2-linux64.tar.gz -L | tar xvz --strip-components 1
