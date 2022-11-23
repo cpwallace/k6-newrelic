@@ -7,6 +7,11 @@ on:
         description: "branch name (Default: main)"
         required: true
         default: "main"
+        
+env:
+  NR_ACCOUNT_ID: ${{ secrets.NR_ACCOUNT_ID }}
+  NR_API_KEY: ${{ secrets.NR_API_KEY }}
+  
 jobs:
   build:
     name: Run k6 test
@@ -18,3 +23,15 @@ jobs:
       - name: Install k6
         run: |
           curl https://github.com/loadimpact/k6/releases/download/v0.26.2/k6-v0.26.2-linux64.tar.gz -L | tar xvz --strip-components 1
+          
+      - name: Run container
+        run: |
+          docker run \
+          -d --restart unless-stopped \
+          --name newrelic-statsd \
+          -h $(hostname) \
+          -e NR_ACCOUNT_ID="${NR_ACCOUNT_ID}" \
+          -e NR_API_KEY="${NR_API_KEY}" \
+          -p 8125:8125/udp \
+          newrelic/nri-statsd:latest
+
