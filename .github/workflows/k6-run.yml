@@ -42,4 +42,5 @@ jobs:
         
       - name: run tests
         run : k6 run --vus 12 --duration 30s --out statsd script.js
+        
 
